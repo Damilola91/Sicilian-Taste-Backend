@@ -1,0 +1,33 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cloudinary": "^2.5.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "express-validator": "^7.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.2",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
+  },
+  "name": "sicilian-taste-backend",
+  "version": "1.0.0",
+  "description": "backend Sicilian Taste",
+  "main": "main.js",
+  "devDependencies": {},
+  "scripts": {
+    "dev": "nodemon main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Damilola91/Sicilian-Taste.git"
+  },
+  "author": "Damilola Abiola Wiwoloku",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Damilola91/Sicilian-Taste/issues"
+  },
+  "homepage": "https://github.com/Damilola91/Sicilian-Taste#readme"
+}

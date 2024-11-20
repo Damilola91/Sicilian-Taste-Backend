@@ -48,3 +48,5 @@ users.post(
     }
   }
 );
+
+module.exports = users;

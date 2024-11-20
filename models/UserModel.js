@@ -40,6 +40,13 @@ const UserSchema = new mongoose.Schema(
       enum: allowedRoles,
       default: "user",
     },
+
+    products: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+    ],
   },
   {
     timestamps: true,

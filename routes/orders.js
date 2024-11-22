@@ -4,7 +4,7 @@ const OrderModel = require("../models/OrderModel");
 const stripe = require("stripe")(process.env.VITE_STRIPE_SECRET_KEY);
 
 orders.post("/orders", async (req, res, next) => {
-  const { userId, items, shippingAddress } = req.body;
+  const { user, items, shippingAddress } = req.body;
 
   try {
     const totalAmount = items.reduce(
@@ -25,7 +25,7 @@ orders.post("/orders", async (req, res, next) => {
     });
 
     const newOrder = new OrderModel({
-      user: userId || null,
+      user: user || null,
       items,
       totalAmount,
       paymentId: paymentIntent.id,

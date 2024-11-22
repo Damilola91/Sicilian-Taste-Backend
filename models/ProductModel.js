@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const allowedCategories = ["dolci", "conserve", "vini", "olio", "altro"];
 
 const ProductSchema = new mongoose.Schema(
   {
@@ -12,21 +13,17 @@ const ProductSchema = new mongoose.Schema(
       required: true,
     },
     price: {
-      type: Number,
+      type: mongoose.Types.Decimal128,
       required: true,
       min: 0,
     },
     category: {
       type: String,
       required: true,
-      enum: ["dolci", "conserve", "vini", "olio", "altro"],
+      enum: allowedCategories,
     },
-    stock: {
-      type: Number,
-      required: true,
-      min: 0,
-    },
-    image: {
+
+    img: {
       type: String,
       required: true,
     },

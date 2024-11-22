@@ -9,17 +9,25 @@ const OrderSchema = new mongoose.Schema(
     },
     items: [
       {
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-          required: true,
-        },
-        quantity: {
-          type: Number,
-          required: true,
-          min: 1,
-        },
-        price: {
+        products: [
+          {
+            product: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "Product",
+              required: true,
+            },
+            quantity: {
+              type: Number,
+              required: true,
+              min: 1,
+            },
+            price: {
+              type: mongoose.Types.Decimal128,
+              required: true,
+            },
+          },
+        ],
+        subTotal: {
           type: mongoose.Types.Decimal128,
           required: true,
         },

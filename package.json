@@ -12,7 +12,8 @@
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
     "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "stripe": "^17.4.0"
   },
   "name": "sicilian-taste-backend",
   "version": "1.0.0",

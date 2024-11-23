@@ -88,4 +88,64 @@ reviews.post("/reviews/create", async (req, res, next) => {
   }
 });
 
+reviews.patch("/reviews/update/:reviewId", async (req, res, next) => {
+  const { reviewId } = req.params;
+
+  if (!reviewId) {
+    return res.status(400).send({
+      statusCode: 400,
+      message: "Review ID is required",
+    });
+  }
+
+  try {
+    const reviewExist = await ReviewModel.findById(reviewId);
+
+    if (!reviewExist) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "Review not found with the given Review Id",
+      });
+    }
+
+    const updateReviewData = req.body;
+    const options = { new: true };
+    const result = await ReviewModel.findByIdAndUpdate(
+      reviewId,
+      updateReviewData,
+      options
+    );
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "Review updated successfully",
+      review: result,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+reviews.delete("/reviews/delete/:reviewId", async (req, res, next) => {
+  const { reviewId } = req.params;
+
+  try {
+    const deletedReview = await ReviewModel.findByIdAndDelete(reviewId);
+
+    if (!deletedReview) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "Review not found",
+      });
+    }
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "Review deleted successfully",
+      review: deletedReview,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = reviews;

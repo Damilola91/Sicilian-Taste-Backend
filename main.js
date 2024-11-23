@@ -7,6 +7,7 @@ const usersRoute = require("./routes/user");
 const productsRoute = require("./routes/products");
 const ordersRoute = require("./routes/orders");
 const loginRoute = require("./routes/login");
+const reviewsRoute = require("./routes/reviews");
 const requestedTimeMiddleware = require("./middleware/requestedTimeMiddleware");
 
 const PORT = process.env.PORT || 4040;
@@ -18,6 +19,7 @@ server.use(cors());
 server.use(requestedTimeMiddleware);
 server.use("/", usersRoute);
 server.use("/", productsRoute);
+server.use("/", reviewsRoute);
 server.use("/", loginRoute);
 server.use("/", ordersRoute);
 

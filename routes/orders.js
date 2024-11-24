@@ -56,7 +56,7 @@ orders.get("/orders", async (req, res, next) => {
 
     res.status(200).send({
       statusCode: 200,
-      message: "Ordini recuperati con successo.",
+      message: "Orders successfully recovered",
       orders,
     });
   } catch (error) {

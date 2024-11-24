@@ -22,7 +22,6 @@ const ProductSchema = new mongoose.Schema(
       required: true,
       enum: allowedCategories,
     },
-
     img: {
       type: String,
       required: true,

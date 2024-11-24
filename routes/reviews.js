@@ -75,7 +75,7 @@ reviews.post("/reviews/create", async (req, res, next) => {
 
     await ProductModel.updateOne(
       { _id: product._id },
-      { $push: { reviews: savedReview._id } }
+      { $push: { ratings: savedReview._id } }
     );
 
     res.status(201).send({

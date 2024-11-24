@@ -46,4 +46,57 @@ orders.post("/orders", async (req, res, next) => {
   }
 });
 
+orders.get("/orders", async (req, res, next) => {
+  try {
+    const { userId } = req.query;
+
+    const filter = userId ? { user: userId } : {};
+
+    const orders = await OrderModel.find(filter).populate("user", "name email");
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "Ordini recuperati con successo.",
+      orders,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+orders.patch("/orders/:orderId/status", async (req, res, next) => {
+  const { orderId } = req.params;
+  const { status } = req.body;
+
+  try {
+    if (!["Pending", "Shipped", "Delivered", "Canceled"].includes(status)) {
+      return res.status(400).send({
+        statusCode: 400,
+        message: "Invalid status",
+      });
+    }
+
+    const updatedOrder = await OrderModel.findByIdAndUpdate(
+      orderId,
+      { status },
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "Order non found",
+      });
+    }
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "Oreder status updated successfully",
+      order: updatedOrder,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = orders;

@@ -11,7 +11,7 @@ cloudinary.config({
 const cloudStorage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: async (req, file) => {
-    const isImage = file.mimetype.startsWith("img/");
+    const isImage = file.mimetype.startsWith("image/");
     const isVideo = file.mimetype.startsWith("video/");
 
     if (!isImage && !isVideo) {
@@ -30,7 +30,7 @@ const cloudStorage = new CloudinaryStorage({
         "avi",
         "hevc",
       ],
-      resource_type: isVideo ? "video" : "img",
+      resource_type: isVideo ? "video" : "image",
       public_id: file.originalname.split(".")[0],
     };
   },

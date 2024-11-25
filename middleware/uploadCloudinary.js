@@ -20,7 +20,16 @@ const cloudStorage = new CloudinaryStorage({
 
     return {
       folder: "SICILIAN-TASTE-SERVER-UPLOADS",
-      allowed_formats: ["jpg", "png", "gif", "mp4", "mov", "avi", "hevc"],
+      allowed_formats: [
+        "jpg",
+        "png",
+        "jpeg",
+        "gif",
+        "mp4",
+        "mov",
+        "avi",
+        "hevc",
+      ],
       resource_type: isVideo ? "video" : "img",
       public_id: file.originalname.split(".")[0],
     };

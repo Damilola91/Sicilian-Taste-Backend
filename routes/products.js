@@ -3,6 +3,7 @@ const products = express.Router();
 const ProductModel = require("../models/ProductModel");
 const isArrayEmpty = require("../utiles/checkArrayLength");
 const validateProductBody = require("../middleware/validateProductBody");
+const cloud = require("../middleware/uploadCloudinary");
 
 products.post(
   "/products/create",
@@ -32,6 +33,28 @@ products.post(
         statusCode: 201,
         message: "Product created successfully",
         product,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+products.post(
+  "/products/upload/cloud",
+  cloud.single("file"),
+  async (req, res, next) => {
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+
+      res.status(200).json({
+        message: "File uploaded successfully",
+        file: {
+          url: req.file.path,
+          public_id: req.file.filename,
+        },
       });
     } catch (error) {
       next(error);

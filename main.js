@@ -9,6 +9,9 @@ const ordersRoute = require("./routes/orders");
 const loginRoute = require("./routes/login");
 const reviewsRoute = require("./routes/reviews");
 const requestedTimeMiddleware = require("./middleware/requestedTimeMiddleware");
+const routeNotFoundMiddleWare = require("./middleware/routeNotFoundHandler");
+const genericErrorHandler = require("./middleware/genericErrorHandler");
+const badRequestHandler = require("./middleware/badRequestHandler");
 
 const PORT = process.env.PORT || 4040;
 
@@ -17,11 +20,16 @@ const server = express();
 server.use(express.json());
 server.use(cors());
 server.use(requestedTimeMiddleware);
+
 server.use("/", usersRoute);
 server.use("/", productsRoute);
 server.use("/", reviewsRoute);
 server.use("/", loginRoute);
 server.use("/", ordersRoute);
+
+server.use(badRequestHandler);
+server.use(genericErrorHandler);
+server.use(routeNotFoundMiddleWare);
 
 init();
 

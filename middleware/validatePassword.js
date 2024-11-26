@@ -8,7 +8,7 @@ const validatePassword = async (req, res, next) => {
     if (!email || !password) {
       return res.status(400).send({
         statusCode: 400,
-        message: "Email e password sono obbligatori",
+        message: "Email and password are required",
       });
     }
 
@@ -16,7 +16,7 @@ const validatePassword = async (req, res, next) => {
     if (!user) {
       return res.status(404).send({
         statusCode: 404,
-        message: "Utente non trovato con l'email fornita",
+        message: "User not found with the email provided",
       });
     }
 
@@ -24,7 +24,7 @@ const validatePassword = async (req, res, next) => {
     if (!isPasswordValid) {
       return res.status(401).send({
         statusCode: 401,
-        message: "Password o email non validi",
+        message: "Password or email not valid",
       });
     }
 

@@ -13,7 +13,7 @@ login.post("/login", validatePassword, (req, res) => {
     .status(200)
     .send({
       statusCode: 200,
-      message: "Ok sei loggato correttamente",
+      message: "You are successfully logged in",
       token: userToken,
       user: {
         name: user.name,
@@ -36,7 +36,7 @@ login.post("/logout", (req, res) => {
 
   res.status(200).send({
     statusCode: 200,
-    message: "Logout eseguito con successo",
+    message: "Logout successful",
   });
 });
 

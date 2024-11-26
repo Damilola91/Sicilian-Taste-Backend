@@ -27,19 +27,10 @@ email.post("/send", async (req, res, next) => {
 
     res.status(200).send({
       statusCode: 200,
-      message: "Email inviata con successo",
+      message: "Email sent successfully",
     });
   } catch (error) {
-    console.error(
-      "Errore durante l'invio dell'email:",
-      error.response?.body || error
-    );
-
-    res.status(500).send({
-      statusCode: 500,
-      message: "Errore durante l'invio dell'email",
-      error: error.response?.body || error.message,
-    });
+    next(error);
   }
 });
 

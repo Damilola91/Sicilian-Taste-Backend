@@ -2,6 +2,7 @@ const express = require("express");
 const orders = express.Router();
 const OrderModel = require("../models/OrderModel");
 const stripe = require("stripe")(process.env.VITE_STRIPE_SECRET_KEY);
+const UserModel = require("../models/UserModel");
 
 orders.post("/orders", async (req, res, next) => {
   const { user, items, shippingAddress } = req.body;
@@ -33,6 +34,22 @@ orders.post("/orders", async (req, res, next) => {
     });
 
     const savedOrder = await newOrder.save();
+
+    if (user) {
+      const updatedUser = await UserModel.findByIdAndUpdate(
+        user,
+        { $push: { orders: savedOrder._id } },
+        { new: true }
+      );
+
+      if (!updatedUser) {
+        return res.status(404).send({
+          statusCode: 404,
+          message: "Utente non trovato, ma l'ordine è stato creato",
+          order: savedOrder,
+        });
+      }
+    }
 
     res.status(201).send({
       statusCode: 201,
@@ -69,13 +86,6 @@ orders.patch("/orders/:orderId/status", async (req, res, next) => {
   const { status } = req.body;
 
   try {
-    if (!["Pending", "Shipped", "Delivered", "Canceled"].includes(status)) {
-      return res.status(400).send({
-        statusCode: 400,
-        message: "Invalid status",
-      });
-    }
-
     const updatedOrder = await OrderModel.findByIdAndUpdate(
       orderId,
       { status },
@@ -91,10 +101,76 @@ orders.patch("/orders/:orderId/status", async (req, res, next) => {
 
     res.status(200).send({
       statusCode: 200,
-      message: "Oreder status updated successfully",
+      message: "Order status updated successfully",
       order: updatedOrder,
     });
   } catch (error) {
+    next(error);
+  }
+});
+
+orders.get("/orders/:orderId", async (req, res, next) => {
+  const { orderId } = req.params;
+
+  try {
+    const order = await OrderModel.findById(orderId).populate(
+      "user",
+      "name email"
+    );
+
+    if (!order) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "Order not found",
+      });
+    }
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "Order successfully retrieved",
+      order,
+    });
+  } catch (error) {
+    console.error("Error retrieving order:", error);
+    next(error);
+  }
+});
+
+orders.get("/orders/all", async (req, res, next) => {
+  try {
+    const allOrders = await OrderModel.find().populate("user", "name email");
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "All orders successfully retrieved",
+      orders: allOrders,
+    });
+  } catch (error) {
+    console.error("Error retrieving all orders:", error);
+    next(error);
+  }
+});
+
+orders.delete("/orders/delete/:orderId", async (req, res, next) => {
+  const { orderId } = req.params;
+
+  try {
+    const deletedOrder = await OrderModel.findByIdAndDelete(orderId);
+
+    if (!deletedOrder) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "Order not found",
+      });
+    }
+
+    res.status(200).send({
+      statusCode: 200,
+      message: "Order deleted successfully",
+      order: deletedOrder,
+    });
+  } catch (error) {
+    console.error("Error deleting order:", error);
     next(error);
   }
 });

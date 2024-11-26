@@ -14,7 +14,8 @@ products.post(
     if (!name || !description || !category || !price || !img) {
       return res.status(400).send({
         statusCode: 400,
-        message: "Missing required fields: title, asin, price, img, asin",
+        message:
+          "Missing required fields: name, description, category, price, img",
       });
     }
 
@@ -49,7 +50,7 @@ products.post(
         return res.status(400).json({ message: "No file uploaded" });
       }
 
-      res.status(200).json({
+      res.status(201).json({
         message: "File uploaded successfully",
         file: {
           url: req.file.path,

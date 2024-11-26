@@ -1,6 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const generateToken = require("../middleware/generateToken");
 const login = express.Router();
 const UserModel = require("../models/UserModel");
 
@@ -25,19 +25,7 @@ login.post("/login", async (req, res, next) => {
       });
     }
 
-    const userToken = jwt.sign(
-      {
-        name: user.name,
-        surname: user.surname,
-        email: user.email,
-        role: user.role,
-        _id: user._id,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "120m",
-      }
-    );
+    const userToken = generateToken(user);
 
     res
       .header("Authorization", userToken)
@@ -60,6 +48,14 @@ login.post("/login", async (req, res, next) => {
 });
 
 login.post("/logout", (req, res) => {
+  res.clearCookie("token");
+
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+
+  if (token) {
+    console.log(`Token invalidato: ${token}`);
+  }
+
   res.status(200).send({
     statusCode: 200,
     message: "Logout eseguito con successo",

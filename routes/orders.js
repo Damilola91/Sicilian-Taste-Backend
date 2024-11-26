@@ -45,7 +45,7 @@ orders.post("/orders", async (req, res, next) => {
       if (!updatedUser) {
         return res.status(404).send({
           statusCode: 404,
-          message: "Utente non trovato, ma l'ordine è stato creato",
+          message: "User not found, but order has been created",
           order: savedOrder,
         });
       }
@@ -53,7 +53,7 @@ orders.post("/orders", async (req, res, next) => {
 
     res.status(201).send({
       statusCode: 201,
-      message: "Ordine creato con successo",
+      message: "Order created successfully",
       order: savedOrder,
       clientSecret: paymentIntent.client_secret,
     });

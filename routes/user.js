@@ -2,8 +2,9 @@ const express = require("express");
 const users = express.Router();
 const UserModel = require("../models/UserModel");
 const validateUserMiddleware = require("../middleware/validateUserMiddleware");
+const authenticationToken = require("../middleware/authenticationToken");
 
-users.get("/users", async (req, res, next) => {
+users.get("/users", [authenticationToken], async (req, res, next) => {
   try {
     const users = await UserModel.find();
     if (users.length === 0) {

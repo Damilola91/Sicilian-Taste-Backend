@@ -8,6 +8,7 @@ const productsRoute = require("./routes/products");
 const ordersRoute = require("./routes/orders");
 const loginRoute = require("./routes/login");
 const reviewsRoute = require("./routes/reviews");
+const emailRoute = require("./routes/email");
 const requestedTimeMiddleware = require("./middleware/requestedTimeMiddleware");
 const routeNotFoundMiddleWare = require("./middleware/routeNotFoundHandler");
 const genericErrorHandler = require("./middleware/genericErrorHandler");
@@ -26,6 +27,7 @@ server.use("/", productsRoute);
 server.use("/", reviewsRoute);
 server.use("/", loginRoute);
 server.use("/", ordersRoute);
+server.use("/", emailRoute);
 
 server.use(badRequestHandler);
 server.use(genericErrorHandler);

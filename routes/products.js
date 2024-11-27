@@ -9,9 +9,18 @@ products.post(
   "/products/create",
   [validateProductBody],
   async (req, res, next) => {
-    const { name, description, category, price, img } = req.body;
+    const { name, description, category, price, img, ingredients, recipe } =
+      req.body;
 
-    if (!name || !description || !category || !price || !img) {
+    if (
+      !name ||
+      !description ||
+      !category ||
+      !price ||
+      !img ||
+      !ingredients ||
+      !recipe
+    ) {
       return res.status(400).send({
         statusCode: 400,
         message:
@@ -26,6 +35,8 @@ products.post(
         description,
         price: Number(req.body.price),
         img,
+        ingredients,
+        recipe,
       });
 
       const product = await newProduct.save();

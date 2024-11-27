@@ -1,6 +1,17 @@
 const mongoose = require("mongoose");
-const allowedCategories = ["dolci", "conserve", "vini", "olio", "altro"];
-
+const allowedCategories = [
+  "dolci",
+  "conserve",
+  "vini",
+  "olio",
+  "primi piatti",
+  "secondi piatti",
+  "street food",
+  "contorni",
+  "antipasti",
+  "salumi",
+  "formaggi",
+];
 const ProductSchema = new mongoose.Schema(
   {
     name: {
@@ -23,6 +34,14 @@ const ProductSchema = new mongoose.Schema(
       enum: allowedCategories,
     },
     img: {
+      type: String,
+      required: true,
+    },
+    ingredients: {
+      type: [String],
+      required: true,
+    },
+    recipe: {
       type: String,
       required: true,
     },

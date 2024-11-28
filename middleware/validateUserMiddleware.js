@@ -1,14 +1,10 @@
 const validateUserMiddleware = (req, res, next) => {
   const errors = [];
 
-  const { name, surname, email, address, password, role } = req.body;
+  const { name, surname, email, address, password } = req.body;
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     errors.push("The Email is Not Valid");
-  }
-
-  if (typeof role !== "string") {
-    errors.push("Username must be a string");
   }
 
   if (typeof password !== "string" || password.length < 8) {

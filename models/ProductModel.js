@@ -45,6 +45,11 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    availableInStock: {
+      type: mongoose.Types.Decimal128,
+      required: false,
+      min: 1,
+    },
     ratings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   },
   {

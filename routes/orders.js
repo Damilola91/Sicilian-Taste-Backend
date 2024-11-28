@@ -3,6 +3,7 @@ const orders = express.Router();
 const OrderModel = require("../models/OrderModel");
 const stripe = require("stripe")(process.env.VITE_STRIPE_SECRET_KEY);
 const UserModel = require("../models/UserModel");
+const ProductModel = require("../models/ProductModel");
 
 orders.post("/orders", async (req, res, next) => {
   const { user, items, shippingAddress } = req.body;
@@ -24,6 +25,32 @@ orders.post("/orders", async (req, res, next) => {
       currency: "eur",
       payment_method_types: ["card"],
     });
+
+    const stockUpdates = items.reduce((acc, item) => {
+      const itemUpdates = item.products.map(async (product) => {
+        const productId = product.product;
+        const quantity = product.quantity;
+
+        if (!productId || !quantity || !product.price) {
+          throw new Error(`Invalid price or quantity for product ${productId}`);
+        }
+
+        const updateResult = await ProductModel.updateOne(
+          { _id: productId, availableInStock: { $gte: quantity } },
+          { $inc: { availableInStock: -quantity } }
+        );
+
+        if (updateResult.matchedCount === 0) {
+          throw new Error(
+            `Insufficient stock for product with ID: ${productId}`
+          );
+        }
+      });
+
+      return acc.concat(itemUpdates);
+    }, []);
+
+    await Promise.all(stockUpdates);
 
     const newOrder = new OrderModel({
       user: user || null,
@@ -58,7 +85,7 @@ orders.post("/orders", async (req, res, next) => {
       clientSecret: paymentIntent.client_secret,
     });
   } catch (error) {
-    console.error("Errore durante la creazione dell'ordine:", error);
+    console.error("Error creating order:", error);
     next(error);
   }
 });

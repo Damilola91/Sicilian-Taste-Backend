@@ -4,39 +4,33 @@ const ProductModel = require("../models/ProductModel");
 const isArrayEmpty = require("../utiles/checkArrayLength");
 const validateProductBody = require("../middleware/validateProductBody");
 const cloud = require("../middleware/uploadCloudinary");
+const authenticationTokenAdmin = require("../middleware/authenticationTokenAdmin");
 
 products.post(
   "/products/create",
-  [validateProductBody],
+  [validateProductBody, authenticationTokenAdmin],
   async (req, res, next) => {
-    const { name, description, category, price, img, ingredients, recipe } =
-      req.body;
-
-    if (
-      !name ||
-      !description ||
-      !category ||
-      !price ||
-      !img ||
-      !ingredients ||
-      !recipe
-    ) {
-      return res.status(400).send({
-        statusCode: 400,
-        message:
-          "Missing required fields: name, description, category, price, img",
-      });
-    }
-
     try {
-      const newProduct = new ProductModel({
+      const {
         name,
-        category,
         description,
-        price: Number(req.body.price),
+        category,
+        price,
         img,
         ingredients,
         recipe,
+        availableInStock,
+      } = req.body;
+
+      const newProduct = new ProductModel({
+        name,
+        description,
+        category,
+        price,
+        img,
+        ingredients,
+        recipe,
+        availableInStock,
       });
 
       const product = await newProduct.save();
@@ -47,6 +41,7 @@ products.post(
         product,
       });
     } catch (error) {
+      console.error("Error creating product:", error.message);
       next(error);
     }
   }

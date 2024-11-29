@@ -4,8 +4,8 @@ const authenticateToken = (req, res, next) => {
   const userToken = req.header("Authorization");
 
   if (!userToken) {
-    return res.status(403).send({
-      statusCode: 403,
+    return res.status(401).send({
+      statusCode: 401,
       message: "Token not valid or not passed",
     });
   }

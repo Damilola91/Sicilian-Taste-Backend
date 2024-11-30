@@ -25,6 +25,7 @@ const cloudStorage = new CloudinaryStorage({
         "png",
         "jpeg",
         "gif",
+        "webp",
         "mp4",
         "mov",
         "avi",

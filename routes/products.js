@@ -100,6 +100,27 @@ products.get("/products", async (req, res, next) => {
   }
 });
 
+products.get("/products/all", async (req, res, next) => {
+  try {
+    const products = await ProductModel.find();
+
+    if (isArrayEmpty(products)) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "No products found",
+      });
+    }
+
+    res.status(200).send({
+      statusCode: 200,
+      message: `Products Found: ${products.length}`,
+      products,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 products.get("/products/:productId", async (req, res, next) => {
   const { productId } = req.params;
 

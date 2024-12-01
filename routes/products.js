@@ -20,6 +20,7 @@ products.post(
         ingredients,
         recipe,
         availableInStock,
+        nutritionFacts,
       } = req.body;
 
       const newProduct = new ProductModel({
@@ -31,6 +32,7 @@ products.post(
         ingredients,
         recipe,
         availableInStock,
+        nutritionFacts,
       });
 
       const product = await newProduct.save();

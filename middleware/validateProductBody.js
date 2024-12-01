@@ -39,6 +39,32 @@ const validateProductBody = [
     .isInt({ min: 1 })
     .withMessage("Available in stock must be a positive integer"),
 
+  body("nutritionFacts")
+    .isObject()
+    .withMessage("Nutrition facts must be an object")
+    .bail()
+    .custom((value) => {
+      const requiredFields = ["calories", "carbs", "fat", "protein", "sugar"];
+      const missingFields = requiredFields.filter((field) => !value[field]);
+      if (missingFields.length) {
+        throw new Error(`Missing nutrition facts: ${missingFields.join(", ")}`);
+      }
+      return true;
+    })
+    .bail()
+    .custom((value) => {
+      const validPattern = /^[0-9]+(\.[0-9]+)?\s*(kcal|g)$/;
+      const fields = ["calories", "carbs", "fat", "protein", "sugar"];
+      for (let field of fields) {
+        if (!validPattern.test(value[field])) {
+          throw new Error(
+            `Invalid format for ${field}. Expected a string like '250 kcal' or '50 g'.`
+          );
+        }
+      }
+      return true;
+    }),
+
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

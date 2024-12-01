@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const allowedCategories = [
   "dolci",
   "conserve",
@@ -12,6 +13,7 @@ const allowedCategories = [
   "salumi",
   "formaggi",
 ];
+
 const ProductSchema = new mongoose.Schema(
   {
     name: {
@@ -51,6 +53,29 @@ const ProductSchema = new mongoose.Schema(
       min: 1,
     },
     ratings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
+
+    nutritionFacts: {
+      calories: {
+        type: String,
+        required: true,
+      },
+      carbs: {
+        type: String,
+        required: true,
+      },
+      fat: {
+        type: String,
+        required: true,
+      },
+      protein: {
+        type: String,
+        required: true,
+      },
+      sugar: {
+        type: String,
+        required: true,
+      },
+    },
   },
   {
     timestamps: true,

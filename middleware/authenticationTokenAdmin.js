@@ -12,7 +12,7 @@ const authenticationTokenAdmin = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (decoded.role !== "admin") {
+    if (decoded.role !== "admin" && decoded.role !== "company") {
       return res.status(403).send({
         statusCode: 403,
         message: "Access denied. Admins only.",

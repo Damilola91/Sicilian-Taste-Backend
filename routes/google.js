@@ -71,6 +71,7 @@ google.get(
       surname: user.surname,
       email: user.email,
       _id: user._id,
+      role: user.role,
     };
 
     const token = jwt.sign(tokenPayload, process.env.JWT_SECRET);

@@ -30,6 +30,8 @@ const cloudStorage = new CloudinaryStorage({
         "mov",
         "avi",
         "hevc",
+        "avif",
+        "webp",
       ],
       resource_type: isVideo ? "video" : "image",
       public_id: file.originalname.split(".")[0],

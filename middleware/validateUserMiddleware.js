@@ -1,7 +1,7 @@
 const validateUserMiddleware = (req, res, next) => {
   const errors = [];
 
-  const { name, surname, email, address, password } = req.body;
+  const { name, surname, email, password } = req.body;
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     errors.push("The Email is Not Valid");
@@ -17,10 +17,6 @@ const validateUserMiddleware = (req, res, next) => {
 
   if (typeof surname !== "string" || surname.length < 3) {
     errors.push("Surname must be a string and at least 3 char");
-  }
-
-  if (typeof address !== "string") {
-    errors.push("Insert a valid Address");
   }
 
   if (errors.length > 0) {

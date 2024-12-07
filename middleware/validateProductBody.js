@@ -12,9 +12,17 @@ const validateProductBody = [
     .withMessage("Description is not valid, must be a non-empty string"),
 
   body("img")
-    .isString()
+    .isURL({ protocols: ["http", "https"], require_tld: true })
+    .withMessage("Image URL is not valid, must be a valid URL")
     .notEmpty()
-    .withMessage("Image URL is not valid, must be a non-empty string"),
+    .withMessage("Image URL is required")
+    .custom((value) => {
+      // Aggiungi un controllo personalizzato per Cloudinary
+      if (!value.startsWith("https://res.cloudinary.com/")) {
+        throw new Error("Image URL must be a Cloudinary URL.");
+      }
+      return true;
+    }),
 
   body("price")
     .isFloat({ min: 0 })

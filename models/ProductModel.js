@@ -52,8 +52,6 @@ const ProductSchema = new mongoose.Schema(
       required: false,
       min: 1,
     },
-    ratings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
-
     nutritionFacts: {
       calories: {
         type: String,
@@ -76,6 +74,8 @@ const ProductSchema = new mongoose.Schema(
         required: true,
       },
     },
+
+    ratings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Review" }],
   },
   {
     timestamps: true,

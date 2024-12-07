@@ -61,7 +61,7 @@ products.post(
       res.status(201).json({
         message: "File uploaded successfully",
         file: {
-          url: req.file.path,
+          url: req.file.path, // Assicurati che `req.file.path` contenga l'URL corretto dell'immagine
           public_id: req.file.filename,
         },
       });

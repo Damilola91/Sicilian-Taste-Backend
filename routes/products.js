@@ -1,7 +1,7 @@
 const express = require("express");
 const products = express.Router();
 const ProductModel = require("../models/ProductModel");
-const isArrayEmpty = require("../utiles/checkArrayLength");
+const isArrayEmpty = require("../utils/checkArrayLength");
 const validateProductBody = require("../middleware/validateProductBody");
 const cloud = require("../middleware/uploadCloudinary");
 const authenticationTokenAdmin = require("../middleware/authenticationTokenAdmin");
@@ -61,7 +61,7 @@ products.post(
       res.status(201).json({
         message: "File uploaded successfully",
         file: {
-          url: req.file.path, // Assicurati che `req.file.path` contenga l'URL corretto dell'immagine
+          url: req.file.path,
           public_id: req.file.filename,
         },
       });

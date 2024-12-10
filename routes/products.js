@@ -72,7 +72,7 @@ products.post(
 );
 
 products.get("/products", async (req, res, next) => {
-  const { page = 1, pageSize = 10 } = req.query;
+  const { page = 1, pageSize = 8 } = req.query;
   try {
     const products = await ProductModel.find()
       .limit(pageSize)

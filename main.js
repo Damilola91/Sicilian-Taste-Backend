@@ -8,6 +8,7 @@ const ordersRoute = require("./routes/orders");
 const loginRoute = require("./routes/login");
 const reviewsRoute = require("./routes/reviews");
 const emailRoute = require("./routes/email");
+const newsLetterRoute = require("./routes/subscribe");
 const googleRoute = require("./routes/google");
 const requestedTimeMiddleware = require("./middleware/requestedTimeMiddleware");
 const routeNotFoundMiddleWare = require("./middleware/routeNotFoundHandler");
@@ -28,6 +29,7 @@ server.use("/", reviewsRoute);
 server.use("/", loginRoute);
 server.use("/", ordersRoute);
 server.use("/", emailRoute);
+server.use("/", newsLetterRoute);
 server.use("/", googleRoute);
 
 server.use(badRequestHandler);

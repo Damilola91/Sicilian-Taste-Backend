@@ -195,6 +195,42 @@ products.get("/products/search/:category", async (req, res, next) => {
   }
 });
 
+products.get("/products/title/:name", async (req, res, next) => {
+  const { name } = req.params;
+
+  if (!name) {
+    return res.status(400).send({
+      statusCode: 400,
+      message: "Name is required",
+    });
+  }
+
+  try {
+    const products = await ProductModel.find({
+      name: {
+        $regex: name,
+        $options: "i",
+      },
+    });
+
+    if (!products || products.length === 0) {
+      return res.status(404).send({
+        statusCode: 404,
+        message: "Name not found",
+      });
+    }
+
+    res.status(200).send({
+      statusCode: 200,
+      message: `Products Found: ${products.length}`,
+      products,
+    });
+  } catch (error) {
+    console.error("Error while searching products:", error);
+    next(error);
+  }
+});
+
 products.patch("/products/update/:productId", async (req, res, next) => {
   const { productId } = req.params;
 

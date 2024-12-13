@@ -1,0 +1,88 @@
+Sicilian Taste è un progetto E-commerce di Prodotti Siciliani e Presidi Slow Food
+
+Questo progetto rappresenta un e-commerce dedicato ai prodotti tipici siciliani e ai Presidi Slow Food. 
+L'obiettivo principale è quello di promuovere la cultura gastronomica siciliana, permettendo agli utenti di acquistare prodotti unici e di qualità, scoprire come preparare determinate pietanze tradizionali e interagire tramite una sezione di commenti. 
+La piattaforma è progettata per essere facile da usare, responsiva e sicura.
+
+Tecnologie utilizzate per il Frontend:
+•HTML, CSS e JavaScript per la struttura e la stilizzazione dell'interfaccia utente.
+•React con il framework ViteJs per la creazione di componenti dinamici e un'applicazione frontend reattiva.
+
+Tecnologie utilizzate per il Backend:
+•Node.js e Express per gestire la logica server-side e le API REST.
+
+Database:
+•MongoDB per la gestione dei dati relativi ai prodotti, utenti, recensioni e newsletter.
+
+Autenticazione:
+•JWT (JSON Web Tokens) per garantire un sistema di autenticazione sicuro.
+
+Responsività:
+•Media Queries e Bootstrap per garantire una visualizzazione ottimale su dispositivi di diverse dimensioni.
+
+Features Implementate:
+•Autenticazione
+•Paginazione Prodotti
+•Gestione degli utenti tramite Redux.
+•Registrazione, login e logout sicuri con hashing delle password.
+•Prodotti e Recensioni
+•Gestione centralizzata dei dati dei prodotti e delle recensioni tramite Redux.
+•Possibilità di lasciare recensioni sui prodotti acquistati.
+•Acquisti e Pagamenti
+•Integrazione con Stripe per gestire i pagamenti in modo sicuro e veloce.
+•Sidebar e Notifiche
+•Utilizzo della libreria Drawer per implementare una side bar funzionale per il login e la gestione utente.
+•Notifiche eleganti e interattive con SweetAlert.
+•Contatti e Newsletter
+•Invio di messaggi dalla pagina contatti e gestione della newsletter tramite SendGrid.
+•Cloudinary per il caricamento delle immagini nel cloud
+•OAuth di Google
+
+
+Dashboard dedicata per:
+•Gestione delle iscrizioni alla newsletter.
+•Modifica e cancellazione dei prodotti disponibili sullo store.
+
+Funzionalità Extra:
+•Tutorial su come preparare ricette tradizionali siciliane, accessibili direttamente dalla piattaforma.
+•Sezione dedicata ai commenti per favorire l'interazione e il feedback degli utenti.
+
+Requisiti essenziali sono per l'inizializzazione del progetto:
+•Node.js installato.
+•MongoDB configurato e in esecuzione.
+
+
+Installazione e Avvio:
+•Clonare le repository, installa le dipendenze per il backend e configurazione dei file .env (VARIABILI D'AMBIENTE): 
+DB_URI
+DEBUG_MODE
+JWT_SECRET
+VITE_STRIPE_SECRET_KEY
+GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET
+GOOGLE_CALLBACK_URL
+FRONTEND_URL
+CLOUDINARY_API_KEY
+CLOUDINARY_API_SECRET
+CLOUDINARY_CLOUD_NAME
+SENDGRID_API_KEY
+SENDER_EMAIL
+cd delle cartelle, npm install per installare le varie dipendenze.
+
+•Avvia il server backend:
+npm run dev
+
+Stessa cosa nel frontend dove nel file .env vi sarà solo: 
+•VITE_SERVER_BASE_URL
+
+•Avvia il frontend:
+npm run dev
+
+Conclusioni:
+Questo progetto mira a valorizzare i prodotti siciliani e la cultura gastronomica locale attraverso un'esperienza d'acquisto moderna e interattiva. 
+Ogni componente è stato progettato con cura per offrire funzionalità pratiche, un design accattivante e una navigazione intuitiva.
+
+Infine qui di seguito vi è il link della repository del frontend: https://github.com/Damilola91/Sicilian-Taste
+
+
+

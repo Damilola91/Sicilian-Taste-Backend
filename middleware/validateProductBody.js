@@ -17,7 +17,6 @@ const validateProductBody = [
     .notEmpty()
     .withMessage("Image URL is required")
     .custom((value) => {
-      // Aggiungi un controllo personalizzato per Cloudinary
       if (!value.startsWith("https://res.cloudinary.com/")) {
         throw new Error("Image URL must be a Cloudinary URL.");
       }

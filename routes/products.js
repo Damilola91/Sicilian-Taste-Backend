@@ -4,11 +4,10 @@ const ProductModel = require("../models/ProductModel");
 const isArrayEmpty = require("../utils/checkArrayLength");
 const validateProductBody = require("../middleware/validateProductBody");
 const cloud = require("../middleware/uploadCloudinary");
-const authenticationTokenAdmin = require("../middleware/authenticationTokenAdmin");
 
 products.post(
   "/products/create",
-  [validateProductBody, authenticationTokenAdmin],
+  validateProductBody,
   async (req, res, next) => {
     try {
       const {

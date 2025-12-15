@@ -31,19 +31,14 @@ reviews.get("/reviews/product/:productId", async (req, res, next) => {
   try {
     const reviewsForProduct = await ReviewModel.find({
       product: productId,
-    }).populate("user");
+    })
+      .populate("user", "name surname email role") // 🔥 populate pulito
+      .sort({ createdAt: -1 });
 
-    if (reviewsForProduct.length === 0) {
-      return res.status(404).send({
-        statusCode: 404,
-        message: "No reviews found for this product",
-      });
-    }
-
+    // ✅ SEMPRE 200
     res.status(200).send({
       statusCode: 200,
-      message: "Reviews retrieved successfully",
-      reviews: reviewsForProduct,
+      reviews: reviewsForProduct, // anche se []
     });
   } catch (error) {
     next(error);

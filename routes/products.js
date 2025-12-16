@@ -231,65 +231,73 @@ products.get("/products/title/:name", async (req, res, next) => {
   }
 });
 
-products.patch("/products/update/:productId", async (req, res, next) => {
-  const { productId } = req.params;
+products.patch(
+  "/products/update/:productId",
+  authenticateAdminOrCompany,
+  async (req, res, next) => {
+    const { productId } = req.params;
 
-  if (!productId) {
-    return res.status(400).send({
-      statusCode: 400,
-      message: "Product ID is required",
-    });
-  }
-
-  try {
-    const productExist = await ProductModel.findById(productId);
-
-    if (!productExist) {
-      return res.status(404).send({
-        statusCode: 404,
-        message: "Product not found with the given Product Id",
+    if (!productId) {
+      return res.status(400).send({
+        statusCode: 400,
+        message: "Product ID is required",
       });
     }
 
-    const updateProductData = req.body;
-    const options = { new: true };
-    const result = await ProductModel.findByIdAndUpdate(
-      productId,
-      updateProductData,
-      options
-    );
+    try {
+      const productExist = await ProductModel.findById(productId);
 
-    res.status(200).send({
-      statusCode: 200,
-      message: "Product updated successfully",
-      product: result,
-    });
-  } catch (error) {
-    next(error);
-  }
-});
+      if (!productExist) {
+        return res.status(404).send({
+          statusCode: 404,
+          message: "Product not found with the given Product Id",
+        });
+      }
 
-products.delete("/products/delete/:productId", async (req, res, next) => {
-  const { productId } = req.params;
+      const updateProductData = req.body;
+      const options = { new: true };
+      const result = await ProductModel.findByIdAndUpdate(
+        productId,
+        updateProductData,
+        options
+      );
 
-  try {
-    const deletedProduct = await ProductModel.findByIdAndDelete(productId);
-
-    if (!deletedProduct) {
-      return res.status(404).send({
-        statusCode: 404,
-        message: "Product not found",
+      res.status(200).send({
+        statusCode: 200,
+        message: "Product updated successfully",
+        product: result,
       });
+    } catch (error) {
+      next(error);
     }
-
-    res.status(200).send({
-      statusCode: 200,
-      message: "Product deleted successfully",
-      product: deletedProduct,
-    });
-  } catch (error) {
-    next(error);
   }
-});
+);
+
+products.delete(
+  "/products/delete/:productId",
+  authenticateAdminOrCompany,
+  async (req, res, next) => {
+    const { productId } = req.params;
+
+    try {
+      const deletedProduct = await ProductModel.findByIdAndDelete(productId);
+
+      if (!deletedProduct) {
+        return res.status(404).send({
+          statusCode: 404,
+          message: "Product not found",
+        });
+      }
+
+      res.status(200).send({
+        statusCode: 200,
+        message: "Product deleted successfully",
+        product: deletedProduct,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = products;

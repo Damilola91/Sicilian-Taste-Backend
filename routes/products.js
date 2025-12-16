@@ -4,45 +4,46 @@ const ProductModel = require("../models/ProductModel");
 const isArrayEmpty = require("../utils/checkArrayLength");
 const validateProductBody = require("../middleware/validateProductBody");
 const cloud = require("../middleware/uploadCloudinary");
+const authenticateAdminOrCompany = require("../middleware/authenticationTokenAdmin");
 
 products.post(
   "/products/create",
-  validateProductBody,
+  [authenticateAdminOrCompany, validateProductBody],
   async (req, res, next) => {
     try {
-      const {
-        name,
-        description,
-        category,
-        price,
-        img,
-        ingredients,
-        recipe,
-        availableInStock,
-        nutritionFacts,
-      } = req.body;
-
-      const newProduct = new ProductModel({
-        name,
-        description,
-        category,
-        price,
-        img,
-        ingredients,
-        recipe,
-        availableInStock,
-        nutritionFacts,
+      const product = new ProductModel({
+        ...req.body,
+        createdBy: req.user._id, // 👈 FONDAMENTALE
       });
 
-      const product = await newProduct.save();
+      await product.save();
 
-      res.status(201).send({
+      res.status(201).json({
         statusCode: 201,
         message: "Product created successfully",
         product,
       });
     } catch (error) {
-      console.error("Error creating product:", error.message);
+      next(error);
+    }
+  }
+);
+
+products.get(
+  "/products/my",
+  authenticateAdminOrCompany,
+  async (req, res, next) => {
+    try {
+      const products = await ProductModel.find({
+        createdBy: req.user._id,
+      }).sort({ createdAt: -1 });
+
+      res.status(200).json({
+        statusCode: 200,
+        count: products.length,
+        products,
+      });
+    } catch (error) {
       next(error);
     }
   }

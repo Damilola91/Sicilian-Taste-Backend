@@ -1,32 +1,44 @@
 const jwt = require("jsonwebtoken");
 
-const authenticationTokenAdmin = (req, res, next) => {
-  const token = req.header("Authorization")?.replace("Bearer ", "");
-  if (!token) {
-    return res.status(401).send({
+const authenticateAdminOrCompany = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({
       statusCode: 401,
-      message: "Access denied. No token provided.",
+      message: "Authorization header missing",
     });
   }
+
+  if (!authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({
+      statusCode: 401,
+      message: "Authorization must be Bearer token",
+    });
+  }
+
+  const token = authHeader.split(" ")[1];
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (decoded.role !== "admin" && decoded.role !== "company") {
-      return res.status(403).send({
+    if (!["admin", "company"].includes(decoded.role)) {
+      return res.status(403).json({
         statusCode: 403,
-        message: "Access denied. Admins only.",
+        message: "Access denied: admin or company only",
       });
     }
 
+    // 🔑 utente disponibile alle rotte
     req.user = decoded;
+
     next();
   } catch (error) {
-    res.status(400).send({
-      statusCode: 400,
-      message: "Invalid token.",
+    return res.status(403).json({
+      statusCode: 403,
+      message: "Token expired or invalid",
     });
   }
 };
 
-module.exports = authenticationTokenAdmin;
+module.exports = authenticateAdminOrCompany;

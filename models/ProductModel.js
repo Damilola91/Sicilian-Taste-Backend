@@ -52,6 +52,13 @@ const ProductSchema = new mongoose.Schema(
       required: false,
       min: 1,
     },
+
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "userModel",
+      required: true,
+    },
+
     nutritionFacts: {
       calories: {
         type: String,
